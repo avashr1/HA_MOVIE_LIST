@@ -3,6 +3,8 @@ import requests
 import re
 import time
 
+import insert_into_db
+
 # Replace '<your_access_token_here>' with your actual access token
 access_token = 'REDACTED_PUSHBULLET_TOKEN'
 
@@ -58,8 +60,7 @@ while True:
                     data_themd = response_themd.json()
                     if data_themd.get('movie_results'):
                        for movie in data_themd.get('movie_results'):
-
-                        print(movie.get('title'))
+                        insert_into_db.save_movie_to_db(imdb_id, movie.get('title'))
                         print('test')
                         #print(f"Found ID: {imdb_id} (from {push_url})")
 
