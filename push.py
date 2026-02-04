@@ -60,8 +60,8 @@ while True:
                     data_themd = response_themd.json()
                     if data_themd.get('movie_results'):
                        for movie in data_themd.get('movie_results'):
-                        insert_into_db.save_movie_to_db(imdb_id, movie.get('title'))
-                        print('test')
+                        insert_into_db.save_movie_to_db(imdb_id, movie.get('title'),movie.get('poster_path'))
+
                         #print(f"Found ID: {imdb_id} (from {push_url})")
 
     # --- PAGINATION LOGIC ---

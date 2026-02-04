@@ -4,5 +4,5 @@ CREATE TABLE movies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     imdb_id TEXT UNIQUE,
     title TEXT,
-	image TEXT
+	poster_image TEXT
 );
