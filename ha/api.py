@@ -34,7 +34,7 @@ def get_all_movies():
                 "title": row['title'],
                 "poster": 'https://image.tmdb.org/t/p/w500'+row['poster_image']
             })
-        return jsonify(movies_list)
+        return jsonify({"movies": movies_list})
 
     except sqlite3.OperationalError:
         return jsonify({"error": "Database not found or locked"}), 500
