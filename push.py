@@ -60,7 +60,7 @@ while True:
                        for movie in data_themd.get('movie_results'):
 
                         print(movie.get('title'))
-                        print(imdb_id)
+                        print('test')
                     #print(f"Found ID: {imdb_id} (from {push_url})")
 
     # --- PAGINATION LOGIC ---
