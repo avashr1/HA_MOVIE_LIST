@@ -25,7 +25,7 @@ def get_db_connection():
 def get_all_movies():
     try:
         conn = get_db_connection()
-        rows = conn.execute('SELECT title, poster_image,imdb_id FROM movies ORDER BY id DESC').fetchall()
+        rows = conn.execute('SELECT title, poster_image,imdb_id FROM movies where watched =0 ORDER BY id DESC').fetchall()
         conn.close()
 
         movies_list = []
@@ -39,6 +39,21 @@ def get_all_movies():
 
     except sqlite3.OperationalError:
         return jsonify({"error": "Database not found or locked"}), 500
+
+@app.route('/mark-watched',methods=['POST'])
+def mark_movie_watched(imdb_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        query = 'UPDATE movies SET watched = 1 WHERE imdb_id = ?'
+        cursor.execute(query, (imdb_id,))
+        conn.commit()
+        conn.close()
+        return jsonify({"success": True})
+    except sqlite3.OperationalError:
+        return jsonify({"error": "Database not found or locked"}), 500
+
+
 
 
 if __name__ == '__main__':
