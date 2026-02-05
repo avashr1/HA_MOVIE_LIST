@@ -48,11 +48,11 @@ def mark_movie_watched():
         # 2. Extract the specific parameter you want
         # This matches the key in your YAML payload: '{"imdb_id": "..."}'
         movie_id = data.get('imdb_id')
-        print(movie_id)
+
         conn = get_db_connection()
         cursor = conn.cursor()
         query = 'UPDATE movies SET watched = 1 WHERE imdb_id = ?'
-        cursor.execute(query, movie_id)
+        cursor.execute(query, (movie_id,))
         conn.commit()
         conn.close()
         return jsonify({"success": True})
