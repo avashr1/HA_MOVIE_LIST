@@ -25,14 +25,15 @@ def get_db_connection():
 def get_all_movies():
     try:
         conn = get_db_connection()
-        rows = conn.execute('SELECT title, poster_image FROM movies ORDER BY id DESC').fetchall()
+        rows = conn.execute('SELECT title, poster_image,imdb_id FROM movies ORDER BY id DESC').fetchall()
         conn.close()
 
         movies_list = []
         for row in rows:
             movies_list.append({
                 "title": row['title'],
-                "poster": 'https://image.tmdb.org/t/p/w500'+row['poster_image']
+                "poster": 'https://image.tmdb.org/t/p/w500'+row['poster_image'],
+                "imdb_id": row['imdb_id']
             })
         return jsonify({"movies": movies_list})
 
