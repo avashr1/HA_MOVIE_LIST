@@ -5,6 +5,7 @@ import time
 
 import insert_into_db
 
+w_delete = False
 # Replace '<your_access_token_here>' with your actual access token
 access_token = 'REDACTED_PUSHBULLET_TOKEN'
 
@@ -72,4 +73,13 @@ while True:
         time.sleep(0.1)  # Be polite to the API
     else:
         #print("No more cursor found. Extraction complete.")
+        w_delete = True
         break
+
+if w_delete:
+
+  headers = {'Access-Token': 'REDACTED_PUSHBULLET_TOKEN'}
+
+  url = 'https://api.pushbullet.com/v2/pushes'
+
+  response = requests.delete(url, headers=headers)
