@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify,request
 import sqlite3
 import os
 
@@ -41,12 +41,18 @@ def get_all_movies():
         return jsonify({"error": "Database not found or locked"}), 500
 
 @app.route('/mark-watched',methods=['POST'])
-def mark_movie_watched(imdb_id):
+def mark_movie_watched():
     try:
+        data = request.get_json()
+
+        # 2. Extract the specific parameter you want
+        # This matches the key in your YAML payload: '{"imdb_id": "..."}'
+        movie_id = data.get('imdb_id')
+
         conn = get_db_connection()
         cursor = conn.cursor()
         query = 'UPDATE movies SET watched = 1 WHERE imdb_id = ?'
-        cursor.execute(query, (imdb_id,))
+        cursor.execute(query, movie_id)
         conn.commit()
         conn.close()
         return jsonify({"success": True})
