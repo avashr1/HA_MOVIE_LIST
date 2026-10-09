@@ -1,13 +1,22 @@
 #!/usr/bin/env python
+import os
 import requests
 import re
 import time
 
+from dotenv import load_dotenv
+
 import insert_into_db
 
+# Load secrets from a local .env file (see .env.example). Never commit real tokens.
+load_dotenv()
+
 w_delete = False
-# Replace '<your_access_token_here>' with your actual access token
-access_token = 'REDACTED_PUSHBULLET_TOKEN'
+access_token = os.environ.get('PUSHBULLET_ACCESS_TOKEN')
+tmdb_token = os.environ.get('TMDB_API_TOKEN')
+
+if not access_token or not tmdb_token:
+    raise SystemExit("Missing PUSHBULLET_ACCESS_TOKEN or TMDB_API_TOKEN. Copy .env.example to .env and fill in your values.")
 
 headers = {
     'Access-Token': access_token
@@ -54,7 +63,7 @@ while True:
                     url_themd = f"https://api.themoviedb.org/3/find/{imdb_id}?external_source=imdb_id&language=en-US"
                     headers_themd = {
                         "accept": "application/json",
-                        "Authorization": "Bearer REDACTED_TMDB_TOKEN"
+                        "Authorization": f"Bearer {tmdb_token}"
                     }
 
                     response_themd = requests.get(url_themd, headers=headers_themd)
@@ -78,7 +87,7 @@ while True:
 
 if w_delete:
 
-  headers = {'Access-Token': 'REDACTED_PUSHBULLET_TOKEN'}
+  headers = {'Access-Token': access_token}
 
   url = 'https://api.pushbullet.com/v2/pushes'
 

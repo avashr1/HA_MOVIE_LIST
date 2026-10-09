@@ -1,2 +1,9 @@
 *.db
 __pycache__/
+
+# Secrets
+.env
+
+# IDE user-specific files
+.idea/workspace.xml
+.idea/dataSources.local.xml
